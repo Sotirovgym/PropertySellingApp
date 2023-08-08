@@ -1,31 +1,48 @@
 [
   {
-    "id": 1,
+    "ID": 1,
+    "SellRent": 2,
     "Name": "Birla House",
     "Type": "House",
-    "Price": 120000
+    "Price": 120000,
+    "Image": "prop-1.jpg"
   },
   {
-    "id": 2,
+    "ID": 2,
+    "SellRent": 2,
     "Name": "Sotirov House",
     "Type": "House",
-    "Price": 500000
+    "Price": 500000,
+    "Image": "prop-2.jpg"
   },
   {
-    "id": 3,
+    "ID": 3,
+    "SellRent": 1,
     "Name": "Plovdiv House",
     "Type": "House",
-    "Price": 250000
+    "Price": 250000,
+    "Image": "prop-3.jpg"
   },
   {
-    "id": 4,
+    "ID": 4,
+    "SellRent": 1,
     "Name": "Sofia House",
     "Type": "House",
-    "Price": 370000
+    "Price": 370000,
+    "Image": "prop-4.jpg"
   },
   {
-    "id": 5,
+    "ID": 5,
+    "SellRent": 1,
     "Name": "Ruse House",
+    "Type": "House",
+    "Price": 750000,
+    "Image": "prop-5.jpg"
+  },
+  {
+    "ID": 6,
+    "SellRent": 1,
+    "Name": "Just House",
     "Type": "House",
     "Price": 750000
   }
