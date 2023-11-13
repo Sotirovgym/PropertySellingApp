@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validator, Validators } from '@angular/forms';
+import { AbstractControlOptions, FormBuilder, FormControl, FormGroup, Validator, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { PasswordValidator } from '../passwordValidator';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/model/user';
 
 @Component({
   selector: 'app-user-register',
@@ -10,7 +13,10 @@ import { ActivatedRoute } from '@angular/router';
 export class UserRegisterComponent implements OnInit {
 
   registrationForm: FormGroup;
-  constructor(private route: ActivatedRoute) { }
+  isSubmitted: boolean
+  user: User;
+
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService) { }
 
   // getter methods for all form controls
   get username (){
@@ -30,24 +36,39 @@ export class UserRegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.registrationForm = new FormGroup(
-      {
-        username: new FormControl(null, [Validators.required, Validators.minLength(3)]),
-        email: new FormControl(null, [Validators.required, Validators.email]),
-        password: new FormControl(null, [Validators.required, Validators.minLength(8)],),
-        confirmPassword: new FormControl(null, Validators.required),
-        mobile: new FormControl(null, [Validators.required, Validators.maxLength(10)])
-      },
-      this.passwordMatchingValidator);
+    this.createRegistrationForm();
   }
 
-  passwordMatchingValidator(fg: FormGroup) : Validators{
-    // If there is a match return null, else return notMatched = true
-    return fg.get('password').value === fg.get('confirmPassword').value ? null : {notMatched: true};
+  userData(): User{
+    return this.user = {
+      Username: this.username.value,
+      email: this.email.value,
+      password: this.password.value,
+      mobile: this.mobile.value
+    };
+  }
+
+  createRegistrationForm(){
+    this.registrationForm = this.fb.group(
+      {
+        username: [null, [Validators.required, Validators.minLength(3)]],
+        email: [null, [Validators.required, Validators.email]],
+        password: [null, [Validators.required, Validators.minLength(8)]],
+        confirmPassword: [null, Validators.required],
+        mobile: [null, [Validators.required, Validators.maxLength(10)]]
+      }
+      , {validators: PasswordValidator} as  AbstractControlOptions
+    );
   }
 
   onSubmit(){
-    console.log(this.registrationForm);
-  }
+    console.log(this.registrationForm.value);
+    this.isSubmitted = true;
 
+    if (this.registrationForm.valid){
+      this.userService.addUser(this.userData());
+      this.registrationForm.reset();
+      this.isSubmitted = false;
+    }
+  }
 }
