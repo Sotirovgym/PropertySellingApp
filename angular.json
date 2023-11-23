@@ -16,6 +16,9 @@
             "outputPath": "dist/property-selling-app",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "allowedCommonJsDependencies": [
+              "alertifyjs"
+            ],
             "polyfills": [
               "zone.js"
             ],

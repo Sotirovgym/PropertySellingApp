@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormControl, FormGroup, Validator, ValidatorFn, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { PasswordValidator } from '../passwordValidator';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/model/user';
+import { AlertifyService } from 'src/app/services/alertify.service';
 
 @Component({
   selector: 'app-user-register',
@@ -16,7 +16,9 @@ export class UserRegisterComponent implements OnInit {
   isSubmitted: boolean
   user: User;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService) { }
+  constructor(private fb: FormBuilder,
+              private alertify: AlertifyService,
+              private userService: UserService) { }
 
   // getter methods for all form controls
   get username (){
@@ -69,6 +71,10 @@ export class UserRegisterComponent implements OnInit {
       this.userService.addUser(this.userData());
       this.registrationForm.reset();
       this.isSubmitted = false;
+      this.alertify.seccess('Congrats, you are successfully registered');
+    }
+    else{
+      this.alertify.error('Please provide the required fields');
     }
   }
 }
